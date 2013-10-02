@@ -1,11 +1,7 @@
 package com.kousenit.icndb;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.springframework.web.client.RestTemplate;
 
-import android.R.color;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,8 +18,6 @@ public class MainActivity extends Activity {
 
     private Button jokeButton;
     private TextView jokeView;
-    private boolean go;
-    private Timer t;
 
     // "true" ctor arg --> add default message converters
     private RestTemplate template = new RestTemplate(true);
@@ -41,21 +35,7 @@ public class MainActivity extends Activity {
         jokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                go = !go;
-                if (go) {
-                    t = new Timer();
-                    t.scheduleAtFixedRate(new TimerTask() {
-                        public void run() {
-                            new JokeTask().execute();                        
-                        }
-                    }, 0, 10*1000);  // new joke every 10 sec
-                    jokeButton.setTextColor(getResources().getColor(
-                            color.holo_green_dark));
-                } else {
-                    if (t != null) t.cancel();
-                    jokeButton.setTextColor(getResources().getColor(
-                            color.holo_red_dark));
-                }
+                new JokeTask().execute();
             }
         });
      }
