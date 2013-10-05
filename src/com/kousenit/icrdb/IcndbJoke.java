@@ -1,4 +1,4 @@
-package com.kousenit.icndb;
+package com.kousenit.icrdb;
 
 @SuppressWarnings("unused")
 public class IcndbJoke {

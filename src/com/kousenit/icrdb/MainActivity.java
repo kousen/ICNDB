@@ -1,4 +1,4 @@
-package com.kousenit.icndb;
+package com.kousenit.icrdb;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -24,7 +24,8 @@ public class MainActivity extends Activity {
     private RestTemplate template = new RestTemplate(true);
 
     private static final String URL = 
-       "http://api.icndb.com/jokes/random?limitTo=[nerdy]";
+       "http://api.icndb.com/jokes/random?limitTo=[nerdy]" +
+               "&firstName=Carlos&lastName=Ray";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,8 @@ public class MainActivity extends Activity {
     private class LocalJokeTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
-            return template.getForObject("http://10.0.2.2:5050", String.class);
+            return template.getForObject(
+                "http://10.0.2.2:5050?firstName=Carlos&lastName=Ray", String.class);
         }
 
         @Override
