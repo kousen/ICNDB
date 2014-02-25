@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,9 +24,8 @@ public class MainActivity extends Activity {
     // "true" ctor arg --> add default message converters
     private RestTemplate template = new RestTemplate(true);
 
-    private static final String URL = 
-       "http://api.icndb.com/jokes/random?limitTo=[nerdy]" +
-               "&firstName=Carlos&lastName=Ray";
+    private static final String URL = "http://api.icndb.com/jokes/random?limitTo=[nerdy]"
+            + "&firstName=Carlos&lastName=Ray";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +44,14 @@ public class MainActivity extends Activity {
                 }
             }
         });
-     }
-    
+    }
+
     private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-         
+        ConnectivityManager cm = (ConnectivityManager) this
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean online = activeNetwork != null &&
-               activeNetwork.isConnected();
+        boolean online = activeNetwork != null && activeNetwork.isConnected();
         Log.v(TAG, (online ? "online" : "offline"));
         return online;
     }
@@ -64,6 +63,17 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.action_joke:
+            new JokeTask().execute();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
     private class JokeTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
@@ -71,18 +81,18 @@ public class MainActivity extends Activity {
             return joke.getJoke();
         }
 
-        
         @Override
         protected void onPostExecute(String result) {
             jokeView.setText(result);
         }
     }
-    
+
     private class LocalJokeTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
             return template.getForObject(
-                "http://10.0.2.2:5050?firstName=Carlos&lastName=Ray", String.class);
+                    "http://10.0.2.2:5050?firstName=Carlos&lastName=Ray",
+                    String.class);
         }
 
         @Override
