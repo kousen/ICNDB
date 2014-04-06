@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
     private class JokeTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            IcndbJoke joke = template.getForObject(URL, IcndbJoke.class, params);
+            IcndbJoke joke = template.getForObject(URL, IcndbJoke.class, (Object[]) params);
             return joke.getJoke();
         }
 

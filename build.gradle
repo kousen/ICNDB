@@ -3,7 +3,7 @@ buildscript {
         maven { url 'http://repo1.maven.org/maven2' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.1'
+        classpath 'com.android.tools.build:gradle:0.9.0'
     }
 }
 apply plugin: 'android'
@@ -17,24 +17,27 @@ repositories {
 
 dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
-    compile files('libs/android-support-v4.jar')
 }
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "17.0.0"
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 17
+        minSdkVersion 15
+        targetSdkVersion 19
     }
     
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
             resources.srcDirs = ['src']
-            aild.ext.srcDirs = ['src']
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
