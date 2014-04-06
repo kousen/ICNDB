@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
     private RestTemplate template = new RestTemplate(true);
 
     private static final String URL = "http://api.icndb.com/jokes/random?limitTo=[nerdy]"
-            + "&firstName=Carlos&lastName=Ray";
+            + "&firstName={first}&lastName={last}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (isOnline()) {
-                    new JokeTask().execute();
+                    new JokeTask().execute("Nate","Schutta");
                 } else {
                     new LocalJokeTask().execute();
                 }
@@ -74,10 +74,10 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class JokeTask extends AsyncTask<Void, Void, String> {
+    private class JokeTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(Void... params) {
-            IcndbJoke joke = template.getForObject(URL, IcndbJoke.class);
+        protected String doInBackground(String... params) {
+            IcndbJoke joke = template.getForObject(URL, IcndbJoke.class, params);
             return joke.getJoke();
         }
 
