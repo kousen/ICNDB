@@ -1,5 +1,6 @@
 package com.kousenit.icrdb;
 
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.app.Activity;
@@ -21,8 +22,8 @@ public class MainActivity extends Activity {
     private Button jokeButton;
     private TextView jokeView;
 
-    // "true" ctor arg --> add default message converters
-    private RestTemplate template = new RestTemplate(true);
+    // Gson message converter added in onCreate
+    private RestTemplate template = new RestTemplate();
 
     private static final String URL = "http://api.icndb.com/jokes/random?limitTo=[nerdy]"
             + "&firstName={first}&lastName={last}";
@@ -44,6 +45,8 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+        template.getMessageConverters().add(new GsonHttpMessageConverter());
     }
 
     private boolean isOnline() {
