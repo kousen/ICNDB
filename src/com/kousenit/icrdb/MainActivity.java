@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_joke:
-            new JokeTask().execute();
+            new JokeTask().execute("Mike", "Menne");
             return true;
         default:
             return super.onOptionsItemSelected(item);
