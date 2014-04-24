@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
 
     private Button jokeButton;
     private TextView jokeView;
+    private AsyncTask task;
 
     // Gson message converter added in onCreate
     private RestTemplate template = new RestTemplate();
@@ -39,14 +40,21 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (isOnline()) {
-                    new JokeTask().execute("Nate","Schutta");
+                    task = new JokeTask();
                 } else {
-                    new LocalJokeTask().execute();
+                    task = new LocalJokeTask();
                 }
+                task.execute("Nate", "Schutta");
             }
         });
 
         template.getMessageConverters().add(new GsonHttpMessageConverter());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        task.cancel(true);
     }
 
     private boolean isOnline() {
