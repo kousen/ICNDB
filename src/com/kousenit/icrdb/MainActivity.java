@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.net.URL;
+
 public class MainActivity extends Activity {
     private static final String TAG = "ICNDB";
 
@@ -26,8 +28,8 @@ public class MainActivity extends Activity {
     // Gson message converter added in onCreate
     private RestTemplate template = new RestTemplate();
 
-    private static final String URL = "http://api.icndb.com/jokes/random?limitTo=[nerdy]"
-            + "&firstName={first}&lastName={last}";
+    private static final String URL = "http://api.icndb.com/jokes/random?limitTo=[nerdy]" +
+            "&firstName={first}&lastName={last}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,7 @@ public class MainActivity extends Activity {
         jokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnline()) {
-                    task = new JokeTask();
-                } else {
-                    task = new LocalJokeTask();
-                }
-                task.execute("Nate", "Schutta");
+                task = new JokeTask().execute("Venkat","Subramaniam");
             }
         });
 
@@ -54,7 +51,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        task.cancel(true);
+        if (task != null) task.cancel(true);
     }
 
     private boolean isOnline() {
@@ -78,7 +75,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_joke:
-            new JokeTask().execute("Mike", "Menne");
+            new JokeTask().execute("Nate","Schutta");
             return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -88,7 +85,7 @@ public class MainActivity extends Activity {
     private class JokeTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            IcndbJoke joke = template.getForObject(URL, IcndbJoke.class, (Object[]) params);
+            IcndbJoke joke = template.getForObject(URL, IcndbJoke.class, params);
             return joke.getJoke();
         }
 
