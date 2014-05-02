@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         jokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                task = new JokeTask().execute("Venkat","Subramaniam");
+                task = new JokeTask().execute("Beth","Brown");
             }
         });
 
