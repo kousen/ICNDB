@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_joke:
-            new JokeTask().execute("Nate","Schutta");
+            task = new JokeTask().execute("Nate","Schutta");
             return true;
         default:
             return super.onOptionsItemSelected(item);
